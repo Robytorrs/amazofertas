@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Amazofertas</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 0; background: #f8f9fa; color: #333; }
+  header { background: #ff9900; color: white; padding: 1rem; text-align: center; font-size: 1.5rem; }
+  main { padding: 1rem; max-width: 800px; margin: auto; }
+  form { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+  input[type="text"], input[type="url"] { flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; }
+  button { padding: 0.5rem 1rem; background: #28a745; border: none; border-radius: 4px; color: white; cursor: pointer; }
+  button:hover { background: #218838; }
+  .oferta { background: white; border-radius: 4px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+  .oferta a { color: #007bff; text-decoration: none; }
+  .oferta a:hover { text-decoration: underline; }
+  .oferta button { margin-top: 0.5rem; background: #dc3545; }
+  .oferta button:hover { background: #c82333; }
+</style>
+</head>
+<body>
+  <header>Amazofertas</header>
+  <main>
+    <form id="ofertaForm">
+      <input type="text" id="titulo" placeholder="Título de la oferta" required />
+      <input type="url" id="enlace" placeholder="Enlace de Amazon" required />
+      <button type="submit">Añadir</button>
+    </form>
+    <div id="listaOfertas"></div>
+  </main>
+  <script>
+    const form = document.getElementById('ofertaForm');
+    const lista = document.getElementById('listaOfertas');
+    let ofertas = JSON.parse(localStorage.getItem('ofertas')) || [];
+    function renderOfertas() {
+      lista.innerHTML = '';
+      ofertas.forEach((o, i) => {
+        const div = document.createElement('div');
+        div.className = 'oferta';
+        div.innerHTML = `
+          <strong>\${o.titulo}</strong><br />
+          <a href="\${o.enlace}" target="_blank">Ver en Amazon</a><br />
+          <button onclick="eliminarOferta(\${i})">Eliminar</button>
+        `;
+        lista.appendChild(div);
+      });
+    }
+    function eliminarOferta(i) {
+      ofertas.splice(i, 1);
+      localStorage.setItem('ofertas', JSON.stringify(ofertas));
+      renderOfertas();
+    }
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const titulo = document.getElementById('titulo').value.trim();
+      const enlace = document.getElementById('enlace').value.trim();
+      if (titulo && enlace) {
+        ofertas.push({ titulo, enlace });
+        localStorage.setItem('ofertas', JSON.stringify(ofertas));
+        form.reset();
+        renderOfertas();
+      }
+    });
+    renderOfertas();
+  </script>
+</body>
+</html>
