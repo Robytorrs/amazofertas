@@ -1,72 +1,110 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Amazofertas</title>
-<style>
-  body { font-family: Arial, sans-serif; margin: 0; background: #f8f9fa; color: #333; }
-  header { background: #ff9900; color: white; padding: 1rem; text-align: center; font-size: 1.5rem; }
-  main { padding: 1rem; max-width: 800px; margin: auto; }
-  form { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
-  input[type="text"], input[type="url"] { flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; }
-  button { padding: 0.5rem 1rem; background: #28a745; border: none; border-radius: 4px; color: white; cursor: pointer; }
-  button:hover { background: #218838; }
-  .oferta { background: white; border-radius: 4px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-  .oferta a { color: #007bff; text-decoration: none; }
-  .oferta a:hover { text-decoration: underline; }
-  .oferta button { margin-top: 0.5rem; background: #dc3545; border: none; padding: 0.3rem 0.6rem; border-radius: 4px; color: white; cursor: pointer; }
-  .oferta button:hover { background: #c82333; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazofertas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background: linear-gradient(90deg, #ff9900, #e47911);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        h1 {
+            margin: 0;
+        }
+        main {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+        .card:hover {
+            transform: scale(1.03);
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-content {
+            padding: 1rem;
+        }
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .card a {
+            display: inline-block;
+            margin-top: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #ff9900;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .card a:hover {
+            background: #e47911;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #777;
+        }
+    </style>
 </head>
 <body>
-  <header>Amazofertas</header>
-  <main>
-    <form id="ofertaForm">
-      <input type="text" id="titulo" placeholder="Título de la oferta" required />
-      <input type="url" id="enlace" placeholder="Enlace de Amazon" required />
-      <button type="submit">Añadir</button>
-    </form>
-    <div id="listaOfertas"></div>
-  </main>
-  <script>
-    const form = document.getElementById('ofertaForm');
-    const lista = document.getElementById('listaOfertas');
-    let ofertas = JSON.parse(localStorage.getItem('ofertas')) || [];
+    <header>
+        <h1>🛒 Amazofertas</h1>
+        <p>Las mejores ofertas de Amazon en un solo lugar</p>
+    </header>
+    
+    <main>
+        <!-- Ejemplo de oferta -->
+        <div class="card">
+            <img src="https://m.media-amazon.com/images/I/61KkUppB2gL._AC_SL1500_.jpg" alt="Producto 1">
+            <div class="card-content">
+                <div class="card-title">Auriculares Bluetooth</div>
+                <p>Oferta limitada, con envío gratis Prime.</p>
+                <a href="https://www.amazon.es/dp/B0XXXXXXX" target="_blank">Ver oferta</a>
+            </div>
+        </div>
 
-    function renderOfertas() {
-      lista.innerHTML = '';
-      ofertas.forEach((o, i) => {
-        const div = document.createElement('div');
-        div.className = 'oferta';
-        div.innerHTML = \`
-          <strong>\${o.titulo}</strong><br />
-          <a href="\${o.enlace}" target="_blank" rel="noopener noreferrer">Ver en Amazon</a><br />
-          <button onclick="eliminarOferta(\${i})">Eliminar</button>
-        \`;
-        lista.appendChild(div);
-      });
-    }
+        <div class="card">
+            <img src="https://m.media-amazon.com/images/I/71j04H6eWBL._AC_SL1500_.jpg" alt="Producto 2">
+            <div class="card-content">
+                <div class="card-title">Teclado Mecánico</div>
+                <p>Descuento especial de lanzamiento.</p>
+                <a href="https://www.amazon.es/dp/B0YYYYYYY" target="_blank">Ver oferta</a>
+            </div>
+        </div>
+    </main>
 
-    function eliminarOferta(i) {
-      ofertas.splice(i, 1);
-      localStorage.setItem('ofertas', JSON.stringify(ofertas));
-      renderOfertas();
-    }
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const titulo = document.getElementById('titulo').value.trim();
-      const enlace = document.getElementById('enlace').value.trim();
-      if (titulo && enlace) {
-        ofertas.push({ titulo, enlace });
-        localStorage.setItem('ofertas', JSON.stringify(ofertas));
-        form.reset();
-        renderOfertas();
-      }
-    });
-
-    renderOfertas();
-  </script>
+    <footer>
+        © 2025 Amazofertas - No afiliado oficialmente a Amazon
+    </footer>
 </body>
 </html>
