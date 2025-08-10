@@ -1,128 +1,84 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Amazofertas</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #ff9900;
-      padding: 1rem;
-      text-align: center;
-      color: white;
-    }
-    h1 {
-      margin: 0;
-    }
-    main {
-      padding: 1rem;
-      max-width: 1000px;
-      margin: auto;
-    }
-    .ofertas {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 1rem;
-    }
-    .oferta-card {
-      background: white;
-      border-radius: 8px;
-      padding: 1rem;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .oferta-card img {
-      max-width: 100%;
-      border-radius: 8px;
-    }
-    .precio {
-      font-weight: bold;
-      color: green;
-      margin: 0.5rem 0;
-    }
-    .btns {
-      display: flex;
-      justify-content: space-between;
-    }
-    .btns a, .btns button {
-      background: #ff9900;
-      color: white;
-      padding: 0.5rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      text-decoration: none;
-    }
-    .btns a:hover, .btns button:hover {
-      background: #e68a00;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazofertas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ff9900;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        .offer {
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        }
+        .offer a {
+            text-decoration: none;
+            color: #ff9900;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Amazofertas</h1>
-    <p>Ofertas seleccionadas de Amazon</p>
-  </header>
-  <main>
-    <div class="ofertas" id="lista-ofertas">
-      <!-- Aquí se insertan las ofertas dinámicamente -->
+
+    <header>
+        <h1>🔥 Amazofertas 🔥</h1>
+        <p>Ofertas seleccionadas de Amazon</p>
+    </header>
+
+    <div class="container" id="offers">
+        <!-- Las ofertas se añadirán aquí -->
     </div>
-  </main>
 
-  <script>
-    // Ejemplo de datos de prueba
-    const ofertas = [
-      {
-        titulo: "Auriculares Bluetooth",
-        precio: "29.99",
-        imagen: "https://via.placeholder.com/250x160?text=Auriculares",
-        enlace: "https://www.amazon.es/"
-      },
-      {
-        titulo: "Teclado Mecánico",
-        precio: "59.99",
-        imagen: "https://via.placeholder.com/250x160?text=Teclado",
-        enlace: "https://www.amazon.es/"
-      }
-    ];
+    <script>
+        // Lista de ofertas de ejemplo
+        const offers = [
+            {
+                title: "Auriculares Bluetooth Sony",
+                link: "https://www.amazon.es/dp/B08XYZ",
+                description: "Auriculares inalámbricos con cancelación de ruido."
+            },
+            {
+                title: "Cafetera Nespresso",
+                link: "https://www.amazon.es/dp/B07ABC",
+                description: "Cafetera compacta para cápsulas Nespresso."
+            }
+        ];
 
-    function crearOfertaHTML(oferta, index) {
-      const div = document.createElement('div');
-      div.className = 'oferta-card';
-      div.innerHTML = `
-        <img src="${oferta.imagen || 'https://via.placeholder.com/250x160?text=Sin+Imagen'}" alt="Imagen oferta" />
-        <h3>${oferta.titulo}</h3>
-        <div class="precio">${oferta.precio ? '€ ' + oferta.precio : 'Precio no disponible'}</div>
-        <div class="btns">
-          <a href="${oferta.enlace}" target="_blank" rel="noopener noreferrer">Ver en Amazon</a>
-          <button onclick="eliminarOferta(${index})">Eliminar</button>
-        </div>
-      `;
-      return div;
-    }
+        // Mostrar ofertas
+        const offersContainer = document.getElementById('offers');
+        offers.forEach(offer => {
+            const offerDiv = document.createElement('div');
+            offerDiv.classList.add('offer');
+            offerDiv.innerHTML = `
+                <h2>${offer.title}</h2>
+                <p>${offer.description}</p>
+                <a href="${offer.link}" target="_blank">Ver en Amazon</a>
+            `;
+            offersContainer.appendChild(offerDiv);
+        });
+    </script>
 
-    function mostrarOfertas() {
-      const contenedor = document.getElementById('lista-ofertas');
-      contenedor.innerHTML = '';
-      ofertas.forEach((oferta, index) => {
-        contenedor.appendChild(crearOfertaHTML(oferta, index));
-      });
-    }
-
-    function eliminarOferta(index) {
-      ofertas.splice(index, 1);
-      mostrarOfertas();
-    }
-
-    mostrarOfertas();
-  </script>
 </body>
 </html>
